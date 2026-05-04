@@ -28,7 +28,42 @@ def leitor_txt(txt):
     
     return lista
 
+def calcular_kda(kills, deaths):
+    kills = float(kills)
+    deaths = float(deaths)
+
+    if deaths == 0:
+        return kills
+
+    return kills / deaths
+
 if __name__ == "__main__":
     performance = leitor_txt("exemplo.txt")
+    print("PERFORMANCE: ")
     for item in performance:
         print(item)
+    
+    print("\nKDA: ")
+    for item in performance:
+        kda = calcular_kda(item["kills"], item["deaths"])
+        print(f"{item['nome']} - KDA: {kda:.2f}")
+    
+    print("\nFILTRAGEM POR CLASSE (MAGOS): ")
+    magos = [item for item in performance if item["classe"] == "Mago"]
+
+    for mago in magos:
+        print(mago)
+
+    print("\nJOGADOR COM MAIOR DANO: ")
+    maior_dano = max(performance, key=lambda x: x["dano"])
+    print(maior_dano)
+
+    print("\nMÉDIA DE KILLS: ")
+    media_kills = sum(int(item["kills"]) for item in performance) / len(performance)
+    print(f"{media_kills:.2f}")
+
+    print("\nJOGADORES COM KDA MAIOR QUE 2: ")
+    for item in performance:
+        kda = calcular_kda(item["kills"], item["deaths"])
+        if kda > 2:
+            print(f"{item['nome']} - KDA: {kda:.2f}")
